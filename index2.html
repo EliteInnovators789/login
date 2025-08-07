@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Registration Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+    .error {
+      color: red;
+      font-size: 0.9em;
+    }
+    label {
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 300px;
+      padding: 6px;
+      margin-top: 4px;
+      margin-bottom: 10px;
+    }
+    .gender-options {
+      margin-top: 4px;
+      margin-bottom: 10px;
+    }
+    .gender-options label {
+      font-weight: normal;
+      margin-right: 10px;
+    }
+    .checkbox-label {
+      font-weight: normal;
+      margin-left: 5px;
+    }
+    #detailsSection {
+      display: none;
+      margin-top: 30px;
+      font-size: 1.1em;
+      line-height: 1.6;
+    }
+    button {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Registration Form</h2>
+  <form id="registrationForm">
+    <label>Full Name:</label><br />
+    <input type="text" id="fullname" /><br />
+
+    <label>Username:</label><br />
+    <input type="text" id="username" /><br />
+
+    <label>Email:</label><br />
+    <input type="email" id="email" /><br />
+
+    <label>Password:</label><br />
+    <input type="password" id="password" /><br />
+
+    <label>Confirm Password:</label><br />
+    <input type="password" id="confirmPassword" /><br />
+
+    <label>Phone Number:</label><br />
+    <input type="tel" id="phone" placeholder="e.g. +1234567890" /><br />
+
+    <label>Address:</label><br />
+    <textarea id="address" rows="3"></textarea><br />
+
+    <label>Date of Birth:</label><br />
+    <input type="date" id="dob" /><br />
+
+    <label>Gender:</label><br />
+    <div class="gender-options">
+      <input type="radio" name="gender" id="genderMale" value="Male" />
+      <label for="genderMale">Male</label>
+      <input type="radio" name="gender" id="genderFemale" value="Female" />
+      <label for="genderFemale">Female</label>
+      <input type="radio" name="gender" id="genderOther" value="Other" />
+      <label for="genderOther">Other</label>
+    </div>
+
+    <input type="checkbox" id="terms" />
+    <label for="terms" class="checkbox-label">I agree to the Terms and Conditions</label><br /><br />
+
+    <button type="submit">Register</button>
+    <p id="message" class="error"></p>
+  </form>
+
+  <div id="detailsSection">
+    <h2>Registration Details</h2>
+    <div id="userDetails"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById("registrationForm");
+    const message = document.getElementById("message");
+    const detailsSection = document.getElementById("detailsSection");
+    const userDetailsDiv = document.getElementById("userDetails");
+
+    if ("Notification" in window && Notification.permission !== "granted") {
+      Notification.requestPermission();
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      // Get values
+      const name = document.getElementById("fullname").value.trim();
+      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const address = document.getElementById("address").value.trim();
+      const dob = document.getElementById("dob").value;
+      const genderEls = document.getElementsByName("gender");
+      const termsChecked = document.getElementById("terms").checked;
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      message.textContent = "";
+
+      // Check all mandatory fields including username
+      if (!name || !username || !email || !phone || !address || !dob || !password || !confirmPassword) {
+        message.textContent = "All fields are required.";
+        return;
+      }
+
+      // Gender check
+      let gender = null;
+      for (const g of genderEls) {
+        if (g.checked) {
+          gender = g.value;
+          break;
+        }
+      }
+      if (!gender) {
+        message.textContent = "Please select your gender.";
+        return;
+      }
+
+      if (!termsChecked) {
+        message.textContent = "You must agree to the Terms and Conditions.";
+        return;
+      }
+
+      const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+      if (!email.match(emailPattern)) {
+        message.textContent = "Please enter a valid email address.";
+        return;
+      }
+
+      const phonePattern = /^[+]?[\d\s\-]{7,15}$/;
+      if (!phone.match(phonePattern)) {
+        message.textContent = "Please enter a valid phone number.";
+        return;
+      }
+
+      if (password.length < 6) {
+        message.textContent = "Password must be at least 6 characters long.";
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        message.textContent = "Passwords do not match.";
+        return;
+      }
+
+      // Success - hide form, show details
+      form.style.display = "none";
+
+      // Format date nicely
+      const dobDate = new Date(dob);
+      const dobFormatted = dobDate.toLocaleDateString();
+
+      userDetailsDiv.innerHTML = `
+        <strong>Full Name:</strong> ${name}<br />
+        <strong>Username:</strong> ${username}<br />
+        <strong>Email:</strong> ${email}<br />
+        <strong>Phone Number:</strong> ${phone}<br />
+        <strong>Address:</strong> ${address}<br />
+        <strong>Date of Birth:</strong> ${dobFormatted}<br />
+        <strong>Gender:</strong> ${gender}<br />
+      `;
+
+      detailsSection.style.display = "block";
+
+      // Show desktop notification with the name
+      if ("Notification" in window && Notification.permission === "granted") {
+        new Notification("Welcome!", {
+          body: `Hello ${name}, thank you for registering!`,
+          icon: "https://cdn-icons-png.flaticon.com/512/1250/1250686.png",
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>
