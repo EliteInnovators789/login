@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Login with Time-Based Wishes</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #eef2f3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+  }
+  .login-container {
+    background: white;
+    padding: 2rem 3rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    width: 300px;
+    text-align: center;
+  }
+  input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 0.5rem;
+    margin: 0.5rem 0 1rem 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  button {
+    padding: 0.5rem 1rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .wish {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+</style>
+</head>
+<body>
+
+<div class="login-container">
+  <div id="wish" class="wish"></div>
+  <input type="text" id="username" placeholder="Username" />
+  <input type="password" id="password" placeholder="Password" />
+  <button onclick="login()">Login</button>
+</div>
+
+<script>
+function getWishByTime() {
+  const now = new Date();
+  const hour = now.getHours();
+
+  if (hour >= 6 && hour < 10) {
+    return "Good Morning! Time for Breakfast 🍳";
+  } else if (hour >= 12 && hour < 14) {
+    return "Good Afternoon! Enjoy your Lunch 🍽️";
+  } else if (hour >= 16 && hour < 18) {
+    return "Good Evening! Snack Time 🍩";
+  } else if (hour >= 19 && hour < 21) {
+    return "Good Night! Time for Dinner 🍲";
+  } 
+  }
+
+function displayWish() {
+  const wishDiv = document.getElementById("wish");
+  wishDiv.textContent = getWishByTime();
+}
+
+function login() {
+  const user = document.getElementById("username").value.trim();
+  const pass = document.getElementById("password").value.trim();
+
+  if (user === "" || pass === "") {
+    alert("Please enter username and password.");
+  } else {
+    alert(`Good Morning! Time for Breakfast 🍳, !`);
+    // Here, you can add your login validation and redirection logic
+  }
+}
+
+// Show wish on page load
+window.onload = displayWish;
+</script>
+
+</body>
+</html>
