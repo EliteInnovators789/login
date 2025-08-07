@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Simple Newspaper Layout</title>
+<style>
+  body {
+    font-family: Georgia, serif;
+    max-width: 900px;
+    margin: 20px auto;
+    background: #fff;
+    color: #333;
+  }
+  header {
+    text-align: center;
+    border-bottom: 4px solid black;
+    margin-bottom: 30px;
+  }
+  header h1 {
+    font-size: 3em;
+    margin: 0;
+    letter-spacing: 5px;
+  }
+  header p {
+    font-size: 1.2em;
+    font-style: italic;
+  }
+  .article {
+    margin-bottom: 40px;
+  }
+  .article h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+  }
+  .article p {
+    font-size: 1.1em;
+    line-height: 1.6;
+  }
+  .byline {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 15px;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>The Daily Code</h1>
+    <p>Your Source for Programming News</p>
+  </header>
+
+  <section class="article">
+    <h2>ChatGPT Releases New Features</h2>
+    <div class="byline">By AI Reporter - July 10, 2025</div>
+    <p>
+      OpenAI has launched exciting new updates to ChatGPT, enhancing its ability to
+      generate creative content and code snippets. Developers and writers alike
+      are praising the improvements.
+    </p>
+  </section>
+
+  <section class="article">
+    <h2>Python Remains the Most Popular Language</h2>
+    <div class="byline">By Tech Analyst - July 9, 2025</div>
+    <p>
+      For the ninth year in a row, Python continues to dominate the programming
+      landscape, thanks to its versatility in web development, data science,
+      automation, and more.
+    </p>
+  </section>
+</body>
+</html>
